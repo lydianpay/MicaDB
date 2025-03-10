@@ -2,6 +2,7 @@ package simulator
 
 import (
 	"github.com/Tether-Payments/micadb/db"
+	"github.com/Tether-Payments/micadb/tests"
 	"log"
 	"os"
 	"runtime"
@@ -9,16 +10,14 @@ import (
 )
 
 func Write(runCount int) {
-	mica, err := db.NewMicaDB(
-		db.Options{
-			Filename: "./tests/databases/stresstest.bin",
-			IsTest:   false,
-			CustomTypes: []any{
-				TestingStruct2{},
-				TestingStruct1{},
-			},
-			BackupFrequency: 0,
-		})
+	mica, err := db.NewDB(db.Options{
+		Filename:        "./tests/databases/stresstest.bin",
+		IsTest:          false,
+		BackupFrequency: -1,
+	}).WithCustomTypes(
+		tests.TestingStruct2{},
+		tests.TestingStruct1{},
+	).Start()
 
 	if err != nil {
 		log.Fatalf("error attempting to load database for creating : %v", err)
@@ -31,7 +30,7 @@ func Write(runCount int) {
 	log.Printf("Creating %v random items", maxInserts)
 	randomItemsNow := time.Now()
 	for range maxInserts {
-		items[RandomString()] = RandomItem()
+		items[tests.RandomString()] = tests.RandomItem()
 	}
 	log.Printf("Random item creation took %v", time.Since(randomItemsNow))
 
@@ -64,5 +63,5 @@ func Write(runCount int) {
 		log.Printf("File size : %v bytes (approx. %v MB)", fi.Size(), fi.Size()/1024/1024)
 	}
 	log.Println("Write test Done")
-	os.WriteFile("./stresstest.lastphase", []byte("write"), 0655)
+	os.WriteFile("./tests/database/stresstest.lastphase", []byte("write"), 0655)
 }

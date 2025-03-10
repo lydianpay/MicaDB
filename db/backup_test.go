@@ -1,7 +1,7 @@
 package db
 
 import (
-	"github.com/Tether-Payments/micadb/simulator"
+	"github.com/Tether-Payments/micadb/tests"
 	"math/rand"
 	"os"
 	"testing"
@@ -14,8 +14,8 @@ func TestStartBackup(t *testing.T) {
 			Filename: "./tests/databases/unittest.bin",
 			IsTest:   false,
 			CustomTypes: []any{
-				simulator.TestingStruct2{},
-				simulator.TestingStruct1{},
+				tests.TestingStruct2{},
+				tests.TestingStruct1{},
 			},
 			BackupFrequency: 1,
 		})
@@ -29,7 +29,7 @@ func TestStartBackup(t *testing.T) {
 
 	// Create random items to be stored
 	for range maxInserts {
-		items[simulator.RandomString()] = simulator.RandomItem()
+		items[tests.RandomString()] = tests.RandomItem()
 	}
 
 	// Store items to in-memory db

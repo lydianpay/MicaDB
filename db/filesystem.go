@@ -43,8 +43,23 @@ func (m *MicaDB) LoadLocalDB() error {
 	decoder := gob.NewDecoder(file)
 	err = decoder.Decode(m)
 	if err != nil {
-		log.Fatal(err)
+		trueErr := m.failWithTypes(err)
+		log.Fatal(trueErr)
 	}
 
 	return nil
+}
+
+// failWithTypes attempts to read the .types file to sugar the error
+func (m *MicaDB) failWithTypes(err error) error {
+
+	statFile, statErr := os.ReadFile(m.Options.Filename + ".types")
+	if statErr != nil {
+		return fmt.Errorf("error decoding db file contents and also an error loading the associated .types file : %v : %v", err, statErr)
+	}
+	if statFile != nil {
+		return fmt.Errorf("error decoding db file contents. Make sure you initialize the db with each of the non-primitives in this list : \n%s\nOriginal error : %v", statFile, err)
+	}
+
+	return fmt.Errorf("error decoding db file contents : %v", err)
 }

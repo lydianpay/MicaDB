@@ -3,21 +3,22 @@ package simulator
 import (
 	"fmt"
 	"github.com/Tether-Payments/micadb/db"
+	"github.com/Tether-Payments/micadb/tests"
 	"log"
 	"sync"
 	"time"
 )
 
 func Concurrency(itemCount int) {
-	mica, err := db.NewMicaDB(db.Options{
-		Filename: "./tests/databases/concurrency.bin",
-		IsTest:   false,
-		CustomTypes: []any{
-			TestingStruct2{},
-			TestingStruct1{},
-		},
+	mica, err := db.NewDB(db.Options{
+		Filename:        "./tests/databases/concurrency.bin",
+		IsTest:          false,
 		BackupFrequency: -1,
-	})
+	}).WithCustomTypes(
+		tests.TestingStruct2{},
+		tests.TestingStruct1{},
+	).Start()
+
 	if err != nil {
 		panic(err)
 	}
@@ -48,7 +49,7 @@ func Concurrency(itemCount int) {
 func buildItems(quantity int) []any {
 	items := []any{}
 	for range quantity {
-		items = append(items, RandomItem())
+		items = append(items, tests.RandomItem())
 	}
 	return items
 }

@@ -20,7 +20,7 @@ type MicaDB struct {
 	Options  Options
 }
 
-func NewMicaDB(options Options) (*MicaDB, error) {
+func NewDB(options Options) *MicaDB {
 	m := &MicaDB{
 		Options: options,
 	}
@@ -29,16 +29,19 @@ func NewMicaDB(options Options) (*MicaDB, error) {
 	m.Types = []string{}
 	m.TypesMap = map[string]map[string]string{}
 
-	m.RegisterCustomTypes(m.Options.CustomTypes)
+	return m
+}
 
-	err := m.LoadLocalDB()
+func (m *MicaDB) Start() (db *MicaDB, err error) {
+	newBackupFrequency := m.Options.BackupFrequency
+	err = m.LoadLocalDB()
 	if err != nil {
 		return nil, err
 	}
 
 	// Allow for the updating of backup frequency
-	if options.BackupFrequency != m.Options.BackupFrequency {
-		m.Options.BackupFrequency = options.BackupFrequency
+	if newBackupFrequency != m.Options.BackupFrequency {
+		m.Options.BackupFrequency = newBackupFrequency
 	}
 
 	// Start the automatic backup if requested
@@ -58,8 +61,8 @@ func describeFields(value any) map[string]string {
 	return descriptions
 }
 
-// RegisterCustomTypes is a wrapper for RegisterCustomType to allow for multiple types to be passed
-func (m *MicaDB) RegisterCustomTypes(values []any) *MicaDB {
+// WithCustomTypes is a wrapper for RegisterCustomType to allow for multiple types to be passed
+func (m *MicaDB) WithCustomTypes(values ...any) *MicaDB {
 	for _, value := range values {
 		m.RegisterCustomType(value)
 	}

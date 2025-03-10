@@ -8,11 +8,8 @@ type Options struct {
 	// IsTest when enabled, the file will be created in the temp directory and removed afterwards
 	IsTest bool
 
-	// CustomTypes is used to pass any custom types that may be stored in MicaDB
-	CustomTypes []any
-
 	// BackupFrequency is how often in seconds the in-memory data store should be persisted to disk
-	// 0 (Default) will occur on every change, -1 will disable backups
+	// 0 (Default) will disable backups
 	BackupFrequency int
 }
 

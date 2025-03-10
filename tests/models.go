@@ -1,4 +1,4 @@
-package simulator
+package tests
 
 type TestingStruct1 struct {
 	AString       string

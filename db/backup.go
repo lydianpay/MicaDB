@@ -3,7 +3,10 @@ package db
 import (
 	"bufio"
 	"encoding/gob"
+	"fmt"
 	"log"
+	"os"
+	"strings"
 	"time"
 )
 
@@ -41,4 +44,25 @@ func (m *MicaDB) Backup() {
 	if err != nil {
 		log.Printf("error flushing buffered writer : %v", err)
 	}
+
+	err = m.persistDataTypes()
+	if err != nil {
+		log.Printf("error persisting database types : %v", err)
+	}
+}
+
+func (m *MicaDB) persistDataTypes() error {
+	sb2 := strings.Builder{}
+	for dataType, fieldDescriptions := range m.TypesMap {
+		sb2.WriteString(fmt.Sprintf("[%s]\n", dataType))
+		for fieldName, fieldType := range fieldDescriptions {
+			sb2.WriteString(fmt.Sprintf("    [%s] : %s\n", fieldName, fieldType))
+		}
+	}
+	err := os.WriteFile(m.Options.Filename+".types", []byte(sb2.String()), 0655)
+	if err != nil {
+		return fmt.Errorf("couldn't write .types file : %v", err)
+	}
+
+	return nil
 }

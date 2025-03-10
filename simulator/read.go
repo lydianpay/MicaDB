@@ -2,6 +2,7 @@ package simulator
 
 import (
 	"github.com/Tether-Payments/micadb/db"
+	"github.com/Tether-Payments/micadb/tests"
 	"log"
 	"os"
 	"time"
@@ -11,15 +12,14 @@ func Read() {
 	log.Println("Starting Read")
 	starTime := time.Now()
 
-	mica, err := db.NewMicaDB(db.Options{
-		Filename: "./tests/databases/stresstest.bin",
-		IsTest:   false,
-		CustomTypes: []any{
-			TestingStruct2{},
-			TestingStruct1{},
-		},
+	mica, err := db.NewDB(db.Options{
+		Filename:        "./tests/databases/stresstest.bin",
+		IsTest:          false,
 		BackupFrequency: -1,
-	})
+	}).WithCustomTypes(
+		tests.TestingStruct2{},
+		tests.TestingStruct1{},
+	).Start()
 
 	if err != nil {
 		log.Fatalf("error attempting to load database for creating : %v", err)
