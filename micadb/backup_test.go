@@ -1,4 +1,4 @@
-package db
+package micadb
 
 import (
 	"github.com/Tether-Payments/micadb/tests"

@@ -1,4 +1,4 @@
-package db
+package micadb
 
 import (
 	"encoding/gob"
@@ -20,7 +20,7 @@ type MicaDB struct {
 	Options  Options
 }
 
-func NewDB(options Options) *MicaDB {
+func New(options Options) *MicaDB {
 	m := &MicaDB{
 		Options: options,
 	}

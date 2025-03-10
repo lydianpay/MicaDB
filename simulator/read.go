@@ -1,7 +1,7 @@
 package simulator
 
 import (
-	"github.com/Tether-Payments/micadb/db"
+	"github.com/Tether-Payments/micadb/micadb"
 	"github.com/Tether-Payments/micadb/tests"
 	"log"
 	"os"
@@ -12,7 +12,7 @@ func Read() {
 	log.Println("Starting Read")
 	starTime := time.Now()
 
-	mica, err := db.NewDB(db.Options{
+	db, err := micadb.New(micadb.Options{
 		Filename:        "./tests/databases/stresstest.bin",
 		IsTest:          false,
 		BackupFrequency: -1,
@@ -28,7 +28,7 @@ func Read() {
 	loadDuration := time.Since(starTime)
 	getAllTime := time.Now()
 
-	all := mica.GetAll()
+	all := db.GetAll()
 	for key, val := range all {
 		_ = key
 		_ = val

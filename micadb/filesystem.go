@@ -1,4 +1,4 @@
-package db
+package micadb
 
 import (
 	"encoding/gob"

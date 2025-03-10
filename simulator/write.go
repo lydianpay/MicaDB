@@ -1,7 +1,7 @@
 package simulator
 
 import (
-	"github.com/Tether-Payments/micadb/db"
+	"github.com/Tether-Payments/micadb/micadb"
 	"github.com/Tether-Payments/micadb/tests"
 	"log"
 	"os"
@@ -10,7 +10,7 @@ import (
 )
 
 func Write(runCount int) {
-	mica, err := db.NewDB(db.Options{
+	db, err := micadb.New(micadb.Options{
 		Filename:        "./tests/databases/stresstest.bin",
 		IsTest:          false,
 		BackupFrequency: -1,
@@ -38,14 +38,14 @@ func Write(runCount int) {
 	log.Println("Starting Memory Write")
 	memWriteNow := time.Now()
 	for key, val := range items {
-		mica.Set(key, val)
+		db.Set(key, val)
 	}
 	log.Printf("Writing %d items to in-memory database took %v", len(items), time.Since(memWriteNow))
 
 	// Store db to file
 	log.Println("Saving to file")
 	fileSaveNow := time.Now()
-	mica.Backup()
+	db.Backup()
 
 	log.Printf("Writing database to file took %v", time.Since(fileSaveNow))
 

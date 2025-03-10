@@ -1,4 +1,4 @@
-package db
+package micadb
 
 // Options holds the settings used when creating a new MicaDB
 type Options struct {

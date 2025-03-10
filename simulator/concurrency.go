@@ -2,7 +2,7 @@ package simulator
 
 import (
 	"fmt"
-	"github.com/Tether-Payments/micadb/db"
+	"github.com/Tether-Payments/micadb/micadb"
 	"github.com/Tether-Payments/micadb/tests"
 	"log"
 	"sync"
@@ -10,7 +10,7 @@ import (
 )
 
 func Concurrency(itemCount int) {
-	mica, err := db.NewDB(db.Options{
+	db, err := micadb.New(micadb.Options{
 		Filename:        "./tests/databases/concurrency.bin",
 		IsTest:          false,
 		BackupFrequency: -1,
@@ -25,7 +25,7 @@ func Concurrency(itemCount int) {
 	wg := sync.WaitGroup{}
 	items := buildItems(itemCount)
 	doWrite := func(name string, item any) {
-		mica.Set(name, item)
+		db.Set(name, item)
 		wg.Done()
 	}
 	wg.Add(itemCount)
@@ -36,7 +36,7 @@ func Concurrency(itemCount int) {
 	}
 	wg.Wait()
 	log.Printf("Writing %d items took %v", itemCount, time.Since(writeNow))
-	allItems := mica.GetAll()
+	allItems := db.GetAll()
 	for i := range itemCount {
 		_, OK := allItems[fmt.Sprintf("Thread #%d", i)]
 		if !OK {
