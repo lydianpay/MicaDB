@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	runCount := 1
+	runCount := 1000
 	if len(os.Args) == 3 {
 		runCount, _ = strconv.Atoi(os.Args[2])
 	}

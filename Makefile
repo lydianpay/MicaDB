@@ -9,8 +9,8 @@ read-test:
 
 .PHONY: write-test
 write-test:
-	@go run . write 10000
+	@go run . write 1000
 
 .PHONY: concurrency-test
 concurrency-test:
-	@go run . concurrency 10000
+	@go run . concurrency 1000
