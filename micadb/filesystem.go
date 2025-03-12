@@ -2,14 +2,15 @@ package micadb
 
 import (
 	"encoding/gob"
-	"fmt"
-	"log"
+	"errors"
 	"os"
 )
 
-func (m *MicaDB) CreatePersistentStorage() (dbFile *os.File, err error) {
+var ErrTypesFileNotFound = errors.New(".types file not found and mica db file could not be decoded")
+var ErrDecodingFileWithTypes = errors.New("non-primitives found in mica db file, check the .types file")
+
+func (m *MicaDB) createPersistentStorage() (dbFile *os.File, err error) {
 	if m.Options.IsTest {
-		fmt.Println("Using test mode")
 		dbFile, err = os.CreateTemp("", m.Options.Filename)
 	} else {
 		dbFile, err = os.Create(m.Options.Filename)
@@ -18,7 +19,7 @@ func (m *MicaDB) CreatePersistentStorage() (dbFile *os.File, err error) {
 	return dbFile, err
 }
 
-func (m *MicaDB) LoadLocalDB() error {
+func (m *MicaDB) loadLocalDB() error {
 	// Check for an existing db file
 	_, err := os.Stat(m.Options.Filename)
 	if err != nil {
@@ -31,7 +32,7 @@ func (m *MicaDB) LoadLocalDB() error {
 
 	file, err := os.Open(m.Options.Filename)
 	if err != nil && !os.IsNotExist(err) {
-		log.Fatal(err)
+		return err
 	}
 
 	defer file.Close()
@@ -43,8 +44,7 @@ func (m *MicaDB) LoadLocalDB() error {
 	decoder := gob.NewDecoder(file)
 	err = decoder.Decode(m)
 	if err != nil {
-		trueErr := m.failWithTypes(err)
-		log.Fatal(trueErr)
+		return m.failWithTypes(err)
 	}
 
 	return nil
@@ -53,13 +53,10 @@ func (m *MicaDB) LoadLocalDB() error {
 // failWithTypes attempts to read the .types file to sugar the error
 func (m *MicaDB) failWithTypes(err error) error {
 
-	statFile, statErr := os.ReadFile(m.Options.Filename + ".types")
+	_, statErr := os.ReadFile(m.Options.Filename + ".types")
 	if statErr != nil {
-		return fmt.Errorf("error decoding db file contents and also an error loading the associated .types file : %v : %v", err, statErr)
-	}
-	if statFile != nil {
-		return fmt.Errorf("error decoding db file contents. Make sure you initialize the db with each of the non-primitives in this list : \n%s\nOriginal error : %v", statFile, err)
+		return ErrTypesFileNotFound
 	}
 
-	return fmt.Errorf("error decoding db file contents : %v", err)
+	return ErrDecodingFileWithTypes
 }

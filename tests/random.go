@@ -25,6 +25,11 @@ func randomFloat() float64 {
 
 func RandomItem() any {
 	dice := rand.Intn(10)
+
+	return generateItem(dice)
+}
+
+func generateItem(dice int) any {
 	switch dice {
 	case 0:
 		return randomInt()
