@@ -25,6 +25,10 @@ func New(options Options) *MicaDB {
 		Options: options,
 	}
 
+	if m.Options.Filename == "" {
+		m.Options.Filename = defaultDBName
+	}
+
 	m.KVPs = map[string]any{}
 	m.Types = []string{}
 	m.TypesMap = map[string]map[string]string{}
@@ -34,7 +38,7 @@ func New(options Options) *MicaDB {
 
 func (m *MicaDB) Start() (db *MicaDB, err error) {
 	newBackupFrequency := m.Options.BackupFrequency
-	err = m.LoadLocalDB()
+	err = m.loadLocalDB()
 	if err != nil {
 		return nil, err
 	}
@@ -46,7 +50,7 @@ func (m *MicaDB) Start() (db *MicaDB, err error) {
 
 	// Start the automatic backup if requested
 	if m.Options.BackupFrequency > 0 {
-		m.startBackup()
+		go m.startBackup()
 	}
 
 	return m, nil

@@ -39,5 +39,5 @@ func Read() {
 	log.Printf("Items loaded : %v ", len(all))
 	log.Printf("Load duration : %v", loadDuration)
 	log.Printf("Read duration : %v", readDuration)
-	os.WriteFile("./stresstest.lastphase", []byte("read"), 0655)
+	os.WriteFile("./tests/databases/stresstest.lastphase", []byte("read"), 0655)
 }

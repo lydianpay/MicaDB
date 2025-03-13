@@ -10,24 +10,30 @@ import (
 	"time"
 )
 
+var backupTicker *time.Ticker
+
 func (m *MicaDB) startBackup() {
 
-	ticker := time.NewTicker(time.Duration(m.Options.BackupFrequency) * time.Second)
-	defer ticker.Stop()
+	backupTicker = time.NewTicker(time.Duration(m.Options.BackupFrequency) * time.Second)
+	defer backupTicker.Stop()
 
-	for range ticker.C {
-		m.Backup()
+	for range backupTicker.C {
+		err := m.Backup()
+		if err != nil {
+			log.Println("Backup failed:", err)
+		}
 	}
 }
 
-func (m *MicaDB) Backup() {
+func (m *MicaDB) Backup() error {
 	m.mu.Lock()
 	defer m.mu.Unlock()
 
-	file, err := m.CreatePersistentStorage()
+	file, err := m.createPersistentStorage()
 	if err != nil {
-		log.Printf("error creating database file '%s' : %v", m.Options.Filename, err)
+		return err
 	}
+
 	defer file.Close()
 
 	bufferedWriter := bufio.NewWriter(file)
@@ -37,18 +43,20 @@ func (m *MicaDB) Backup() {
 	encoder := gob.NewEncoder(bufferedWriter)
 	err = encoder.Encode(m)
 	if err != nil {
-		log.Printf("error encoding database : %v", err)
+		return err
 	}
 
 	err = bufferedWriter.Flush()
 	if err != nil {
-		log.Printf("error flushing buffered writer : %v", err)
+		return err
 	}
 
 	err = m.persistDataTypes()
 	if err != nil {
-		log.Printf("error persisting database types : %v", err)
+		return err
 	}
+
+	return nil
 }
 
 func (m *MicaDB) persistDataTypes() error {

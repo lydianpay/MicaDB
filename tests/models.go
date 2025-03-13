@@ -13,3 +13,8 @@ type TestingStruct2 struct {
 	MaybeSomeOtherThings []*TestingStruct2
 	PossiblyNil          *TestingStruct1
 }
+
+type TestingStruct3 struct {
+	AnotherString string
+	AnotherInt    int
+}
