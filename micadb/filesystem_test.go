@@ -2,10 +2,11 @@ package micadb
 
 import (
 	"errors"
-	"github.com/Tether-Payments/micadb/tests"
 	"math/rand"
 	"os"
 	"testing"
+
+	"github.com/tetherpay/micadb/tests"
 )
 
 func TestCreatePersistentStorage(t *testing.T) {

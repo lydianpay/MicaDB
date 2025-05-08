@@ -1,11 +1,12 @@
 package micadb
 
 import (
-	"github.com/Tether-Payments/micadb/tests"
 	"math/rand"
 	"os"
 	"testing"
 	"time"
+
+	"github.com/tetherpay/micadb/tests"
 )
 
 const (
