@@ -1,9 +1,10 @@
 package main
 
 import (
-	"github.com/Tether-Payments/micadb/simulator"
 	"os"
 	"strconv"
+
+	"github.com/tetherpay/micadb/simulator"
 )
 
 func main() {

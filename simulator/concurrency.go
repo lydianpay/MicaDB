@@ -2,11 +2,12 @@ package simulator
 
 import (
 	"fmt"
-	"github.com/Tether-Payments/micadb/micadb"
-	"github.com/Tether-Payments/micadb/tests"
 	"log"
 	"sync"
 	"time"
+
+	"github.com/tetherpay/micadb/micadb"
+	"github.com/tetherpay/micadb/tests"
 )
 
 func Concurrency(itemCount int) {

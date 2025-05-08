@@ -1,12 +1,13 @@
 package simulator
 
 import (
-	"github.com/Tether-Payments/micadb/micadb"
-	"github.com/Tether-Payments/micadb/tests"
 	"log"
 	"os"
 	"runtime"
 	"time"
+
+	"github.com/tetherpay/micadb/micadb"
+	"github.com/tetherpay/micadb/tests"
 )
 
 func Write(runCount int) {
