@@ -6,7 +6,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/tetherpay/micadb/tests"
+	"github.com/lydianpay/micadb/tests"
 )
 
 func TestCreatePersistentStorage(t *testing.T) {

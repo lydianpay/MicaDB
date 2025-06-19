@@ -6,8 +6,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/tetherpay/micadb/micadb"
-	"github.com/tetherpay/micadb/tests"
+	"github.com/lydianpay/micadb/micadb"
+	"github.com/lydianpay/micadb/tests"
 )
 
 func Concurrency(itemCount int) {

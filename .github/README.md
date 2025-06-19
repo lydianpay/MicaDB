@@ -7,7 +7,7 @@
 [![Go Report Card](https://goreportcard.com/badge/Tether-Payments/MicaDB)](https://goreportcard.com/report/Tether-Payments/MicaDB)
 [![codecov](https://codecov.io/gh/Tether-Payments/MicaDB/graph/badge.svg?token=HSQihDsyQD)](https://codecov.io/gh/Tether-Payments/MicaDB)
 [![Maintainability](https://api.codeclimate.com/v1/badges/985996f054bb932299a0/maintainability)](https://codeclimate.com/github/Tether-Payments/MicaDB/maintainability)
-[![CodeQL](https://github.com/tetherpay/MicaDB/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/tetherpay/MicaDB/actions/workflows/github-code-scanning/codeql)
+[![CodeQL](https://github.com/lydianpay/MicaDB/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/lydianpay/MicaDB/actions/workflows/github-code-scanning/codeql)
 
 
 </div>

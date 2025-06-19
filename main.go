@@ -4,7 +4,7 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/tetherpay/micadb/simulator"
+	"github.com/lydianpay/micadb/simulator"
 )
 
 func main() {

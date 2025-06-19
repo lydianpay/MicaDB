@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/tetherpay/micadb/tests"
+	"github.com/lydianpay/micadb/tests"
 )
 
 const (
