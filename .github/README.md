@@ -3,12 +3,10 @@
 # MicaDB
 
 ![micadb.png](micadb.png)
-
-[![Go Report Card](https://goreportcard.com/badge/Tether-Payments/MicaDB)](https://goreportcard.com/report/Tether-Payments/MicaDB)
-[![codecov](https://codecov.io/gh/Tether-Payments/MicaDB/graph/badge.svg?token=HSQihDsyQD)](https://codecov.io/gh/Tether-Payments/MicaDB)
-[![Maintainability](https://api.codeclimate.com/v1/badges/985996f054bb932299a0/maintainability)](https://codeclimate.com/github/Tether-Payments/MicaDB/maintainability)
+[![Go Report Card](https://goreportcard.com/badge/github.com/lydianpay/micadb)](https://goreportcard.com/report/github.com/lydianpay/micadb)
+[![Maintainability](https://qlty.sh/gh/lydianpay/projects/MicaDB/maintainability.svg)](https://qlty.sh/gh/lydianpay/projects/MicaDB)
+[![Code Coverage](https://qlty.sh/gh/lydianpay/projects/MicaDB/coverage.svg)](https://qlty.sh/gh/lydianpay/projects/MicaDB)
 [![CodeQL](https://github.com/lydianpay/MicaDB/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/lydianpay/MicaDB/actions/workflows/github-code-scanning/codeql)
-
 
 </div>
 
@@ -22,14 +20,14 @@ backups.
 1. Once confirming you have [Go](https://go.dev/doc/install) installed, the command below will add
    `micadb` as a dependency to your Go program.
 ```shell
-go get -u github.com/tether-payments/micadb
+go get -u github.com/lydianpay/micadb
 ```
 2. Import the package into your code
 ```go
 package main
 
 import (
-   "github.com/Tether-Payments/micadb"
+   "github.com/lydianpay/micadb"
 )
 ```
 

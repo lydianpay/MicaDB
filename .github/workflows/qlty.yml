@@ -3,6 +3,9 @@ name: Run tests and upload coverage
 on:
   push
 
+permissions:
+  contents: read
+
 jobs:
   test:
     name: Run tests and collect coverage
@@ -14,15 +17,14 @@ jobs:
           fetch-depth: 0
 
       - name: Set up Go
-        uses: actions/setup-go@v5.2.0
-
-      - name: Install dependencies
-        run: go mod download
+        uses: actions/setup-go@v5.5.0
+        with:
+          go-version-file: go.mod
 
       - name: Run tests
-        run: go test ./... -coverprofile=coverage.txt
+        run: go test -count=1 -coverprofile=coverage.out ./...
 
-      - name: Upload results to Codecov
-        uses: codecov/codecov-action@v5.1.2
+      - uses: qltysh/qlty-action/coverage@v2
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+          token: ${{ secrets.QLTY_COVERAGE_TOKEN }}
+          files: coverage.out
